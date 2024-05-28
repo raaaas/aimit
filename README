@@ -6,7 +6,7 @@
 This project uses computer vision and automation techniques to detect and interact with images on the screen.
 
 ## Showcase: bb.jpg
-![bb.jpg](bb.jpg)
+![bb.jpg](../master/bb.jpg)
 
 The image above, `bb.jpg`, is an example of the type of image that this project can detect and interact with.
 
