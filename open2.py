@@ -15,9 +15,53 @@ def click(x, y):
 # Load the template images
 template_aa = cv2.imread('aa.png', cv2.IMREAD_COLOR)
 template_bbb = cv2.imread('bomb0.png', cv2.IMREAD_GRAYSCALE)
-template_play = cv2.imread('play.png', cv2.IMREAD_GRAYSCALE)
+#template_play = cv2.imread('play.png', cv2.IMREAD_GRAYSCALE)
 
+
+
+
+
+start_time = time.time()
+
+while True:
+    # Take a screenshot
+    screenshot = pyautogui.screenshot(region=(0, 150, 380, 280))
+
+    # Convert the screenshot to grayscale
+    gray = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2GRAY)
+
+    # Apply template matching for 'aa' template
+    result_aa = cv2.matchTemplate(cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR), template_aa, cv2.TM_CCOEFF_NORMED)
+
+    # Find the maximum value in the result matrix
+    min_val_aa, max_val_aa, min_loc_aa, max_loc_aa = cv2.minMaxLoc(result_aa)
+
+    # Check if the maximum value is above a certain threshold
+    if max_val_aa > 0.5:
+        x, y = max_loc_aa
+        click(x+20, y+180)
+
+    # Check if 35 seconds have passed
+    if time.time() - start_time > 35:
+        start_time = time.time()
+        click(100, 590)
+
+    # Check for 'q' key press to quit
+    if keyboard.is_pressed('q'):
+        break
+
+    # Check for 'w' key press to click on next
+    if keyboard.is_pressed('w'):
+        click(100, 590)
+
+        
+
+# Check something else here
+
+
+"""
 while not keyboard.is_pressed('q'):
+    
     # Take a screenshot
     screenshot = pyautogui.screenshot(region=(0, 150, 380, 280))
 
@@ -36,7 +80,7 @@ while not keyboard.is_pressed('q'):
         x, y = max_loc_aa
         click(x+20, y+180)
 
-"""         # Apply template matching for 'bbb' template
+         # Apply template matching for 'bbb' template
         result_bbb = cv2.matchTemplate(gray, template_bbb, cv2.TM_CCOEFF_NORMED)
 
         # Find the maximum value in the result matrix
@@ -45,3 +89,5 @@ while not keyboard.is_pressed('q'):
         # If the maximum value is above a certain threshold, ignore the match
         if max_val_bbb < 0.3:  # adjust this value based on your needs
             click(x+20, y+180) """
+
+
